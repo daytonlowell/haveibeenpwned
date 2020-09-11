@@ -1,0 +1,18 @@
+{
+  "name": "haveibeenpwnd",
+  "version": "1.0.0",
+  "description": "A nodejs wrapper on the v3 haveibeenpwned API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "haveibeenpwned",
+    "password"
+  ],
+  "author": "Dayton Lowell",
+  "license": "ISC",
+  "dependencies": {
+    "got": "^11.6.2"
+  }
+}
