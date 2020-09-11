@@ -48,24 +48,20 @@ module.exports = initialize = (apiKey, userAgent = `haveibeenpwned v3 node wrapp
 			}
 		},
 		async pwnedPassword(password, options = {}) {
-			const hash = crypto.createHash(`sha1`).update(password).digest('hex').toUpperCase()
+			const hash = crypto.createHash(`sha1`).update(password).digest(`hex`).toUpperCase()
 			const hashFirstFive = hash.substring(0,5)
 			const headers = options.addPadding ? { 'Add-Padding': true } : {}
 
-			try {
-				const { body } = await got(`https://api.pwnedpasswords.com/range/${encodeURIComponent(hashFirstFive)}`, { headers })
-				
-				const parsedLines = body.split('\r\n').map(line => {
-					const [ hashSuffix, count ] = line.split(':')
-					return [ `${hashFirstFive}${hashSuffix}`, parseInt(count) ]
-				})
-				console.log(parsedLines.length)
-				const hashList = Object.fromEntries(parsedLines)
+			const { body } = await got(`https://api.pwnedpasswords.com/range/${encodeURIComponent(hashFirstFive)}`, { headers })
 
-				return hashList[hash] || 0
-			} catch(err) {
-				throw err
-			}
+			const parsedLines = body.split(`\r\n`).map(line => {
+				const [ hashSuffix, count ] = line.split(`:`)
+				return [ `${hashFirstFive}${hashSuffix}`, parseInt(count) ]
+			})
+
+			const hashList = Object.fromEntries(parsedLines)
+
+			return hashList[hash] || 0
 		},
 	}
 }
